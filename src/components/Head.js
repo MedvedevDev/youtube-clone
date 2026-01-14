@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
+import { Link } from "react-router-dom";
 
 export const Head = () => {
   const dispatch = useDispatch();
@@ -18,11 +19,13 @@ export const Head = () => {
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/1200px-Hamburger_icon.svg.png"
         />
 
-        <img
-          className="h-8 mx-5"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/2560px-YouTube_Logo_2017.svg.png"
-          alt="logo"
-        />
+        <Link to={"/"}>
+          <img
+            className="h-8 mx-5"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/2560px-YouTube_Logo_2017.svg.png"
+            alt="logo"
+          />
+        </Link>
       </div>
 
       <div className="col-span-8 flex justify-center">

@@ -1,11 +1,11 @@
 import { ButtonList } from "./ButtonList";
-import { VideoContainer } from "./VideoContainer";
+import { VideosContainer } from "./VideosContainer";
 
 export const MainContainer = () => {
   return (
     <div className="">
       <ButtonList />
-      <VideoContainer />
+      <VideosContainer />
     </div>
   );
 };
