@@ -1,19 +1,29 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { useEffect, useState } from "react";
 import { GOOGLE_SEARCH_API } from "../utils/constants";
+import { addToCache } from "../utils/searchSlice";
 
 export const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
+  const dispatch = useDispatch();
+  const searchCache = useSelector((store) => store.search);
+
   //implementing debouncing technique for search
   useEffect(() => {
     // make an api call after every key press
     // but if the difference between 2 API calls is < 200ms
     // then decline the API call
-    const timer = setTimeout(() => getSearchSuggestions(), 200);
+    const timer = setTimeout(() => {
+      if (searchCache[searchQuery]) {
+        setSuggestions(searchCache[searchQuery]); // set present queries to store to prevent repeated identical requests
+      } else {
+        getSearchSuggestions();
+      }
+    }, 200);
 
     return () => {
       clearTimeout(timer);
@@ -26,9 +36,15 @@ export const Head = () => {
     const json = await data.json();
     // save suggestions into array
     setSuggestions(json[1]);
+
+    //update cache
+    dispatch(
+      addToCache({
+        [searchQuery]: json[1],
+      }),
+    );
   };
 
-  const dispatch = useDispatch();
   const toggleMenuHandler = () => {
     dispatch(toggleMenu()); // dispatching the action
   };
